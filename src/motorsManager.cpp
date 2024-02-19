@@ -20,8 +20,11 @@ using std::placeholders::_1;
 #define THROTTLE_PWM_CHANNEL_RIGHT 1
 #define STEERING_PWM_CHANNEL 15
 
-#define MAX_DELTA_MOTOR 15*M_PI/180 //degree* pi/180 = radians
+#define MAX_DELTA_MOTOR 39*M_PI/180 //degree* pi/180 = radians
 #define MAX_SPEED 0.3
+
+#define THROTTLE 0
+#define STEERING 1
 
 // BCM PinOut | WiringPi PinOut
 #define IN1 22 // RIGHT FORWARD - board pin 13
@@ -54,7 +57,7 @@ public:
    * @param[in] maxPWM      The maximum value for the PWM (defining the resolution for PWM signal generator)
    * @return Float2ServoMap::Ptr 
    */
-  static Float2ServoMap::Ptr create(float freq, unsigned int maxPWM, char* type)
+  static Float2ServoMap::Ptr create(float freq, unsigned int maxPWM, int type)
   {
     return std::make_shared<Float2ServoMap>(freq, maxPWM, type);
   }
@@ -64,25 +67,25 @@ public:
     return m_ * f + b_;
   }
 
-  Float2ServoMap(float freq, unsigned int maxPWM, char* type): // TODO: Improve accuracy of steering mapping
+  Float2ServoMap(float freq, unsigned int maxPWM, int type): // type == 0 -> throttle, type == 1 -> steering
     m_(0), b_(0)
   {
     float minPWMv = 0, maxPWMv = 0, lBound_ = 0, uBound_ = 0;
-    if (strcmp(type,"throttle")==0){
+    if (type == THROTTLE){
       minPWMv = 0;
       maxPWMv = maxPWM;
       lBound_ = 0;
       uBound_ = MAX_SPEED;
-    }else if(strcmp(type,"steering")==0){
-      float minMiliSec = 1.0;
-      float maxMiliSec = 2.0;
+    }else if(type == STEERING){
+      float minMiliSec = 1.2;
+      float maxMiliSec = 1.8;
       float ms_2_percent = float(freq) / 1000.0 /* ms */;
       maxPWMv = minMiliSec * ms_2_percent * maxPWM;
       minPWMv = maxMiliSec * ms_2_percent * maxPWM;
       lBound_ = -MAX_DELTA_MOTOR;
       uBound_ = MAX_DELTA_MOTOR;
     }else{
-      RCLCPP_ERROR(rclcpp::get_logger("pca9685"),"Wrong type for ServoMap generation: %s\n Must be [steering or throttle].", type);
+      RCLCPP_ERROR(rclcpp::get_logger("pca9685"),"Wrong type for ServoMap generation: must be [steering: %i or throttle: %i].", STEERING, THROTTLE);
     }
     m_ = (maxPWMv - minPWMv) / (uBound_ - lBound_);
     b_ = minPWMv - m_ * lBound_;
@@ -116,8 +119,6 @@ public:
 
 private:
   int bcmRes = -1; // init as it fails
-  char *steerType = "steering";
-  char *throttleType = "throttle";
 
   void init_hardware()
   {
@@ -127,8 +128,8 @@ private:
     }
     // Set the PWM frequency
     pwm_freq_ = 50.0;
-    steeringMap = Float2ServoMap::create(pwm_freq_, 65534u, steerType);
-    throttleMap = Float2ServoMap::create(pwm_freq_, 4095u, throttleType);
+    steeringMap = Float2ServoMap::create(pwm_freq_, 4095u, STEERING);
+    throttleMap = Float2ServoMap::create(pwm_freq_, 4095u, THROTTLE);
 
     // Get the I2C device file descriptor
     i2c_fd_ = open("/dev/i2c-1", O_RDWR);

@@ -23,15 +23,15 @@
 //See the MPU6000 Register Map for more information
 
 
-//Offsets - supply your own here (calculate offsets with getOffsets function)
-//     Accelerometer
-#define A_OFF_X 10382.3
-#define A_OFF_Y -29752.1
-#define A_OFF_Z -6392.95
-//    Gyroscope
-#define G_OFF_X -844.385
-#define G_OFF_Y 172.27
-#define G_OFF_Z -8.6564
+// //Offsets - supply your own here (calculate offsets with getOffsets function)
+// //     Accelerometer
+// #define A_OFF_X 10382.3
+// #define A_OFF_Y -29752.1
+// #define A_OFF_Z -6392.95
+// //    Gyroscope
+// #define G_OFF_X -844.385
+// #define G_OFF_Y 172.27
+// #define G_OFF_Z -8.6564
 
 //-----------------------END MODIFY THESE PARAMETERS-----------------------
 
@@ -98,6 +98,16 @@ class MPU6050 {
 
 		float ax, ay, az, gr, gp, gy; //Temporary storage variables used in _update()
 
+		// Offsets
+		// Accelerometer (default)
+		float a_off_x = 10382.3;
+		float a_off_y = -29752.1;
+		float a_off_z = -6392.95;
+		// Gyroscope (default)
+		float g_off_r = -844.385;
+		float g_off_p = 172.27;
+		float g_off_y = -8.6564;
+
 		int MPU6050_addr;
 		int f_dev; //Device file
 
@@ -114,6 +124,7 @@ class MPU6050 {
 		void getAccel(float *x, float *y, float *z);
 		void getGyro(float *roll, float *pitch, float *yaw);
 		void getOffsets(float *ax_off, float *ay_off, float *az_off, float *gr_off, float *gp_off, float *gy_off);
+		void setOffsets();
 		int getAngle(int axis, float *result);
 		bool calc_yaw;
 };

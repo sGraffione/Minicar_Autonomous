@@ -30,11 +30,11 @@ class AcceleromenterPublisher : public rclcpp::Node
 
 		void writeMessage()
 		{
-			device.getGyroRaw(&gr, &gp, &gy);
-			device.getAccelRaw(&ax, &ay, &az);
-			message_.omega = (round((gy-offset)*10000 / GYRO_SENS)/10000)*M_PI/180;
-			message_.x_accel = (round((ax-offsetAx)*10000 / ACCEL_SENS)/10000)*9.81;
-			message_.y_accel = (round((ay-offsetAy)*10000 / ACCEL_SENS)/10000)*9.81;
+			device.getGyro(&gr, &gp, &gy);
+			device.getAccel(&ax, &ay, &az);
+			message_.omega = gy;//(round((gy-offset)*10000 / GYRO_SENS)/10000)*M_PI/180;
+			message_.x_accel = ax;//(round((ax-offsetAx)*10000 / ACCEL_SENS)/10000)*9.81;
+			message_.y_accel = ay;//(round((ay-offsetAy)*10000 / ACCEL_SENS)/10000)*9.81;
 		}
 	
 	private:
@@ -49,7 +49,7 @@ class AcceleromenterPublisher : public rclcpp::Node
 		{
 			RCLCPP_DEBUG(this->get_logger(), "Calculating gyroscope offset...");
 			/*Gyroscope drift calibration*/
-			
+			device.setOffsets();
 			// std::vector<double> gyVect, axVect, ayVect;
 			// auto start = std::chrono::high_resolution_clock::now();
 			// auto time = std::chrono::duration_cast<std::chrono::seconds>(start-start);

@@ -54,15 +54,15 @@ void MPU6050::getGyroRaw(float *roll, float *pitch, float *yaw) {
 
 void MPU6050::getGyro(float *roll, float *pitch, float *yaw) {
 	getGyroRaw(roll, pitch, yaw); //Store raw values into variables
-	*roll = round((*roll - G_OFF_X) * 1000.0 / GYRO_SENS) / 1000.0; //Remove the offset and divide by the gyroscope sensetivity (use 1000 and round() to round the value to three decimal places)
-	*pitch = round((*pitch - G_OFF_Y) * 1000.0 / GYRO_SENS) / 1000.0;
-	*yaw = round((*yaw - G_OFF_Z) * 1000.0 / GYRO_SENS) / 1000.0;
+	*roll = round((*roll - g_off_r) * 1000.0 / GYRO_SENS) / 1000.0; //Remove the offset and divide by the gyroscope sensetivity (use 1000 and round() to round the value to three decimal places)
+	*pitch = round((*pitch - g_off_p) * 1000.0 / GYRO_SENS) / 1000.0;
+	*yaw = round((*yaw - g_off_y) * 1000.0 / GYRO_SENS) / 1000.0;
 }
 
 void MPU6050::getAccelRaw(float *x, float *y, float *z) {
-	int16_t X = i2c_smbus_read_byte_data(f_dev, 0x3b) << 8 | i2c_smbus_read_byte_data(f_dev, 0x3c); //Read X registers
-	int16_t Y = i2c_smbus_read_byte_data(f_dev, 0x3d) << 8 | i2c_smbus_read_byte_data(f_dev, 0x3e); //Read Y registers
-	int16_t Z = i2c_smbus_read_byte_data(f_dev, 0x3f) << 8 | i2c_smbus_read_byte_data(f_dev, 0x40); //Read Z registers
+	int16_t X = i2c_smbus_read_byte_data(f_dev, 0x3B) << 8 | i2c_smbus_read_byte_data(f_dev, 0x3C); //Read X registers
+	int16_t Y = i2c_smbus_read_byte_data(f_dev, 0x3D) << 8 | i2c_smbus_read_byte_data(f_dev, 0x3E); //Read Y registers
+	int16_t Z = i2c_smbus_read_byte_data(f_dev, 0x3F) << 8 | i2c_smbus_read_byte_data(f_dev, 0x40); //Read Z registers
 	*x = (float)X;
 	*y = (float)Y;
 	*z = (float)Z;
@@ -70,9 +70,9 @@ void MPU6050::getAccelRaw(float *x, float *y, float *z) {
 
 void MPU6050::getAccel(float *x, float *y, float *z) {
 	getAccelRaw(x, y, z); //Store raw values into variables
-	*x = round((*x - A_OFF_X) * 1000.0 / ACCEL_SENS) / 1000.0; //Remove the offset and divide by the accelerometer sensetivity (use 1000 and round() to round the value to three decimal places)
-	*y = round((*y - A_OFF_Y) * 1000.0 / ACCEL_SENS) / 1000.0;
-	*z = round((*z - A_OFF_Z) * 1000.0 / ACCEL_SENS) / 1000.0;
+	*x = round((*x - a_off_x) * 1000.0 / ACCEL_SENS) / 1000.0; //Remove the offset and divide by the accelerometer sensetivity (use 1000 and round() to round the value to three decimal places)
+	*y = round((*y - a_off_y) * 1000.0 / ACCEL_SENS) / 1000.0;
+	*z = round((*z - a_off_z) * 1000.0 / ACCEL_SENS) / 1000.0;
 }
 
 void MPU6050::getOffsets(float *ax_off, float *ay_off, float *az_off, float *gr_off, float *gp_off, float *gy_off) {
@@ -94,6 +94,10 @@ void MPU6050::getOffsets(float *ax_off, float *ay_off, float *az_off, float *gr_
 	*ax_off = *ax_off / 10000, *ay_off = *ay_off / 10000, *az_off = *az_off / 10000;
 
 	*az_off = *az_off - ACCEL_SENS; //Remove 1g from the value calculated to compensate for gravity)
+}
+
+void MPU6050::setOffsets() {
+	getOffsets(&a_off_x, &a_off_y, &a_off_z, &g_off_r, &g_off_p, &g_off_y);
 }
 
 int MPU6050::getAngle(int axis, float *result) {
