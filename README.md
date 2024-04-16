@@ -23,4 +23,5 @@ The only available distribution of Xubuntu on the official website has amd64 arc
   sudo apt install xfce4
   sudo apt install xubuntu-desktop
   ```
-  This process will ask you to choose the display manager as well. Chose gdm3.
+  This process might ask you to choose the display manager as well. Chose gdm3.
+- Reboot the system. After a while, it will show you Xubuntu.
