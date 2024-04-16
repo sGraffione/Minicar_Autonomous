@@ -12,7 +12,7 @@ Dependencies:
 - ROS2
 
 
-*How to install Xubuntu on Raspberry Pi 3B+ board*
+# How to install Xubuntu on Raspberry Pi 3B+ board
 
 The only available distribution of Xubuntu on the official website has amd64 architecture which is not compatible with Raspberry Pi boards. To have Xubuntu with arm64 architecture, follow these steps:
 - Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and use it to install Ubuntu Server 22.04 LTS on the Micro SD card
