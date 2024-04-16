@@ -25,3 +25,4 @@ The only available distribution of Xubuntu on the official website has amd64 arc
   ```
   This process might ask you to choose the display manager as well. Chose gdm3.
 - Reboot the system. After a while, it will show you Xubuntu.
+- Update the OS to have the latest system fix.
