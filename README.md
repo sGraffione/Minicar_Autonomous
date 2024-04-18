@@ -3,13 +3,13 @@ Autonomous minicar developed with ROS2 toolkit
 
 Minicar hardware:
 - Raspberry Pi 3B+ board
-- 3 Laser sensors
+- 3 Laser sensors [VL53L5CX-SATEL](https://www.st.com/en/evaluation-tools/vl53l5cx-satel.html)
 - Pi camera
-- Localization tag (DWM1001)
+- Localization sensors [Decawave DWM1001c](https://www.qorvo.com/products/p/DWM1001C)
   
 Dependencies:
 - Ubuntu Server 22.04
-- ROS2
+- [ROS2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html#install-ros-2-packages)
 
 
 # How to install Ubuntu Server 22.04 on Raspberry Pi 3B+ board and add GUI interface
@@ -30,3 +30,10 @@ Dependencies:
   sudo apt install lxde
   ```
 - Reboot the system
+
+## Switch between GUI and Command line mode
+It is possible to switch between GUI and command line mode once the system has booted.
+
+On the login page, press ```ctrl```+```alt```+```F1``` to go into command line mode. In this way, less resources will be used by the system.
+
+To switch back to GUI, press ```ctrl```+```alt```+```F2```.
