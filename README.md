@@ -59,3 +59,9 @@ It might happen that the system freeze while using the ```colcon build``` comman
 colcon tries to use the muximum number of parallel processes to reduce compilation time, but it might be to heavy for some hardware (e.g. Raspberry Pi boards).
 
 This dimension can be limited with the option ```--parallel-workers NUMBER```. It can also be limited to 1 by selecting the sequential executor with ```--executor sequential```.
+
+### Building stuck at 50%
+
+When the build is stuck at a specific progress (e.g. 50%), it might be a memory issue. The system does not have enough RAM memory and kill a running proccess to free memory, leading to a stuck process.
+
+A solution is increasing a swap memory. Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04-de) to setup a swap memory.
