@@ -32,6 +32,19 @@ Dependencies:
 - Reboot the system
 
 ## Switch between GUI and Command line mode
+It is reccomended to configure the system to boot in command line mode. To disable graphical login and get a text/getty login, you want to change the default target for systemd:
+
+```
+systemctl set-default multi-user.target
+reboot
+```
+
+To change boot target to the GUI mode:
+
+```
+sudo systemctl set-default graphical.target
+```
+
 It is possible to switch between GUI and command line mode once the system has booted.
 
 On the login page, press ```ctrl```+```alt```+```F1``` to go into command line mode. In this way, less resources will be used by the system.
