@@ -50,3 +50,12 @@ It is possible to switch between GUI and command line mode once the system has b
 On the login page, press ```ctrl```+```alt```+```F1``` to go into command line mode. In this way, less resources will be used by the system.
 
 To switch back to GUI, press ```ctrl```+```alt```+```F2```.
+
+## Common issues
+
+### System freezing when compiling
+
+It might happen that the system freeze while using the ```colcon build``` command.
+colcon tries to use the muximum number of parallel processes to reduce compilation time, but it might be to heavy for some hardware (e.g. Raspberry Pi boards).
+
+This dimension can be limited with the option ```--parallel-workers NUMBER```. It can also be limited to 1 by selecting the sequential executor with ```--executor sequential```.
