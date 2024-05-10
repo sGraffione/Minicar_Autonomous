@@ -66,3 +66,12 @@ This dimension can be limited with the option ```--parallel-workers NUMBER```. I
 When the build is stuck at a specific progress (e.g. 50%), it might be a memory issue. The system does not have enough RAM memory and kill a running proccess to free memory, leading to a stuck process.
 
 A solution is increasing a swap memory. Follow [this guide](https://www.digitalocean.com/community/tutorials/how-to-add-swap-space-on-ubuntu-20-04-de) to setup a swap memory.
+
+### Build multiple packages simultaneously takes a long time
+
+Due to hardware limitations, building more packages with parallel processes might takes long time and block the building process. To overcome this issue, it is suggested to use the command ```--executor sequential``` to compile each package individually.
+Example of command:
+
+```
+colcon build --symlink-install --executor sequential
+```
