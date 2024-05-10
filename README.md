@@ -12,6 +12,7 @@ Dependencies:
 - [ROS2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html#install-ros-2-packages)
 - [pca9685-hardware-interface](https://github.com/rosblox/pca9685_ros2_control/tree/main)
 - [ros2-control](https://control.ros.org/iron/doc/getting_started/getting_started.html)
+- [minicar_interfaces](https://github.com/sGraffione/minicar_interfaces)
 
 # How to install Ubuntu Server 22.04 on Raspberry Pi 3B+ board and add GUI interface
 
