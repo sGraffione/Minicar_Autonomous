@@ -29,7 +29,8 @@ include_directories(include)
 
 ###### Add executables ######
 #add_executable(controller src/control.cpp)
-#add_executable(localization src/btsSensors.cpp)
+add_executable(localization src/btsSensors.cpp)
+ament_target_dependencies(localization rclcpp minicar_interfaces)
 add_executable(motorsManager src/motorsManager.cpp)
 ament_target_dependencies(motorsManager rclcpp minicar_interfaces)
 add_executable(accelerometer src/accelerometer.cpp)
@@ -48,7 +49,7 @@ target_link_libraries(accelerometer
   MPU6050
 )
 
-install(TARGETS motorsManager accelerometer
+install(TARGETS motorsManager accelerometer localization
   DESTINATION lib/${PROJECT_NAME}
 )
 
