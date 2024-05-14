@@ -1,5 +1,5 @@
-#include "ros/ros.h"
-#include "minicar/accel.h"
+#include "rclcpp/rclcpp.hpp"
+#include "minicar_interfaces/msg/Accelerometer.h"
 
 #include <MPU6050.h>
 #include <iostream>
@@ -9,23 +9,46 @@
 #include <cstdlib>
 #include <chrono>
 
+#define NODE_NAME "accelerometer"
+
+using namespace std::chrono_literals;
+
 double Ts = 0.1;
 
-int main(int argc, char **argv){
-	ros::init(argc, argv, "accelerometer");
-	ROS_INFO("Connected to roscore");
-	ros::NodeHandle n;
-	ros::Publisher current_pub = n.advertise<minicar::accel>("accelerometer",1);
+class AcceleromenterPublisher : public rclcpp::Node
+{
+	public:
+		AcceleromenterPublisher() : Node("accelerometer_publisher"), count_(0)
+		{
+			publisher_ = this->create_publisher<minicar_interfaces::msg::Accelerometer>("accelerometer", 1);
+			timer_ = this->create_wall_timer(
+				500ms, std::bind(&AcceleromenterPublisher::data_callback, this)
+			);
+		}
 	
-	minicar::accel accelData;
+	private:
+		void data_callback()
+		{
+			auto message = minicar_interfaces::msg::Accelerometer();
+			message.omega = 0;
+			RCLCPP_DEBUG(this->get_logger(), "");
+			publisher_->publish(message);
+		}
+		rclcpp::TimerBase::SharedPtr timer_;
+		rclcpp::Publisher<minicar_interfaces::msg::Accelerometer>::SharedPtr publisher_;
+		size_t count_;
+}
+
+int main(int argc, char **argv){
+	rclcpp::init(argc, argv);
+	RCLCPP_INFO(rclcpp::get_logger(NODE_NAME), "Connected to roscore");
+	
+	minicar_interfaces::msg::Accelerometer accelData;
 	
 	MPU6050 device(0x68);
 	float ax, ay, az, gr, gp, gy, omega; //Variables to store the accel, gyro and angle values
 
 	sleep(1); //Wait for the MPU6050 to stabilize
-	
-	
-	ros::Rate loop_rate(1/Ts);
 
 	/*std::ofstream logFile;
 	logFile.open("/home/pi/accel.dat", std::ios::out | std::ios::binary);
@@ -57,7 +80,7 @@ int main(int argc, char **argv){
 	float offset = (std::accumulate(gyVect.begin(),gyVect.end(),0.0)/gyVect.size())*M_PI/180;
 	float offsetAx = (std::accumulate(axVect.begin(),axVect.end(),0.0)/axVect.size())*M_PI/180;
 	float offsetAy = (std::accumulate(ayVect.begin(),ayVect.end(),0.0)/ayVect.size())*M_PI/180;
-	ROS_INFO("Done!\n Running...");
+	RCLCPP_INFO(get_logger(NODE_NAME), "Done!\n Running...");
 	while(ros::ok()){
 		
 		ros::spinOnce();
@@ -75,6 +98,7 @@ int main(int argc, char **argv){
 		accelData.omega = omega;
 		accelData.xAccel = accelx;
 		accelData.yAccel = accely;
+
 		current_pub.publish(accelData);
 		
 		loop_rate.sleep();

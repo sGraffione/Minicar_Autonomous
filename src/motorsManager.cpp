@@ -64,7 +64,7 @@ public:
     return m_ * f + b_;
   }
 
-  Float2ServoMap(float freq, unsigned int maxPWM, char* type):
+  Float2ServoMap(float freq, unsigned int maxPWM, char* type): // TODO: Improve accuracy of steering mapping
     m_(0), b_(0)
   {
     float minPWMv = 0, maxPWMv = 0, lBound_ = 0, uBound_ = 0;
