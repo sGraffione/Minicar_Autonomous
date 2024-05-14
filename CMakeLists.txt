@@ -32,21 +32,26 @@ include_directories(include)
 #add_executable(localization src/btsSensors.cpp)
 add_executable(motorsManager src/motorsManager.cpp)
 ament_target_dependencies(motorsManager rclcpp minicar_interfaces)
-#add_executable(accelerometer src/accelerometer.cpp)
+add_executable(accelerometer src/accelerometer.cpp)
+ament_target_dependencies(accelerometer rclcpp minicar_interfaces)
 #add_executable(kalmanFilter src/EKF.cpp)
 
-## NEED TO BE AFTER THE DEFINITION OF THE EXECUTABLE
-find_library(MPU6050_LIB MPU6050 ./include/MPU6050/)
 
 set_target_properties(motorsManager PROPERTIES COMPILE_FLAGS "-pthread -lrt -lpigpio -lbcm2835")
+set_target_properties(accelerometer PROPERTIES COMPILE_FLAGS "-lMPU6050")
 
 target_link_libraries(motorsManager
   bcm2835
   pigpio
 )
+target_link_libraries(accelerometer
+  MPU6050
+)
 
-install(TARGETS
-motorsManager
-DESTINATION lib/${PROJECT_NAME})
+install(TARGETS motorsManager accelerometer
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+
 
 ament_package()
