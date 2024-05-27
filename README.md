@@ -9,16 +9,16 @@ Minicar hardware:
 - Localization sensors [Decawave DWM1001c](https://www.qorvo.com/products/p/DWM1001C)
   
 Dependencies:
-- Ubuntu Server 22.04
-- [ROS2](https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html#install-ros-2-packages)
-- [pigpio](https://abyz.me.uk/rpi/pigpio/download.html) for Raspberry Pi 3
+- Ubuntu 24.04
+- [ROS2 Jazzy Jalisco](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debians.html) (according to your Ubuntu version)
+- [pigpio](https://abyz.me.uk/rpi/pigpio/download.html)
 - [bcm2835](./dependencies/bcm2835)
 - [MPU6050](./dependencies/MPU6050)
 - [minicar_interfaces](https://github.com/sGraffione/minicar_interfaces)
 
-# How to install Ubuntu Server 22.04 on Raspberry Pi 3B+ board and add GUI interface
+# How to install Ubuntu Server 24.04 on Raspberry Pi 5 board and add GUI interface
 
-- Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and use it to install Ubuntu Server 22.04 LTS on the Micro SD card
+- Download [Raspberry Pi Imager](https://www.raspberrypi.com/software/) and use it to install Ubuntu Server 24.04 LTS on the Micro SD card
 - Insert the Micro SD in the Raspberry Pi board and boot it
 - After a while, the OS will boot in terminal mode. It will ask for login credentials. Use: login: ubuntu; password: ubuntu. Follow the steps and change the password.
 - Once booted, use the following command to update and install the required packages:
