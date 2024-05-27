@@ -4,6 +4,7 @@ Autonomous minicar developed with ROS2 toolkit
 Minicar hardware:
 - Raspberry Pi 3B+ board
 - 3 Laser sensors [VL53L5CX-SATEL](https://www.st.com/en/evaluation-tools/vl53l5cx-satel.html)
+- [MPU6050](https://www.robotstore.it/Modulo-GY-521-MPU-6050) Accelerometer + Gyroscope
 - Pi camera
 - Localization sensors [Decawave DWM1001c](https://www.qorvo.com/products/p/DWM1001C)
   
