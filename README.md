@@ -1,8 +1,8 @@
 # Minicar_Autonomous
-Autonomous minicar developed with ROS2 toolkit
+Autonomous minicar developed with ROS2 Jammy Jalisco toolkit
 
 Minicar hardware:
-- Raspberry Pi 3B+ board
+- Raspberry Pi 5 board
 - 3 Laser sensors [VL53L5CX-SATEL](https://www.st.com/en/evaluation-tools/vl53l5cx-satel.html)
 - [MPU6050](https://www.robotstore.it/Modulo-GY-521-MPU-6050) Accelerometer + Gyroscope
 - Pi camera
@@ -11,8 +11,7 @@ Minicar hardware:
 Dependencies:
 - Ubuntu 24.04
 - [ROS2 Jazzy Jalisco](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debians.html) (according to your Ubuntu version)
-- [pigpio](https://abyz.me.uk/rpi/pigpio/download.html)
-- [bcm2835](./dependencies/bcm2835)
+- [WiringPi](https://github.com/WiringPi/WiringPi/) (currently not fully supported for Raspberry Pi 5, some bugs might happens - currenty working with version 3.4)
 - [MPU6050](./dependencies/MPU6050)
 - [minicar_interfaces](https://github.com/sGraffione/minicar_interfaces)
 

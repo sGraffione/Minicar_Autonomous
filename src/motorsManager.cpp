@@ -5,8 +5,7 @@
 #include <sys/ioctl.h>
 #include "rclcpp/rclcpp.hpp"
 #include "minicar_interfaces/msg/motors.hpp"
-#include <pigpio.h>
-#include "bcm2835.h"
+#include <wiringPi.h>
 
 using std::placeholders::_1;
 
@@ -26,6 +25,7 @@ using std::placeholders::_1;
 #define THROTTLE 0
 #define STEERING 1
 
+// WiringPi uses BCM numbering of the GPIOs and directly accesses the GPIO registers.
 // BCM PinOut | WiringPi PinOut
 #define IN1 22 // RIGHT FORWARD - board pin 13
 #define IN2 27 // RIGHT BACKWARD - board pin 15
@@ -100,9 +100,8 @@ class PCA9685 : public rclcpp::Node
 public:
   PCA9685() : Node("pca9685")
   {
-    bcmRes = bcm2835_init();
-    if(gpioInitialise()<0){
-      RCUTILS_LOG_ERROR_NAMED(get_name(), "PiGPIO initialisation failed.\n\r");
+    if(wiringPiSetupGpio()<0){
+      RCUTILS_LOG_ERROR_NAMED(get_name(), "WiringPi initialisation failed.\n\r");
 	  }
     init_hardware();
     control_subscription_ = this->create_subscription<minicar_interfaces::msg::Motors>(
@@ -118,14 +117,8 @@ public:
   }
 
 private:
-  int bcmRes = -1; // init as it fails
-
-  void init_hardware()
+  void init_hardware() 
   {
-
-    if (bcmRes != 1) {
-      RCUTILS_LOG_ERROR_NAMED(get_name(), "bcm2835_init() failed\n");
-    }
     // Set the PWM frequency
     pwm_freq_ = 50.0;
     steeringMap = Float2ServoMap::create(pwm_freq_, 4095u, STEERING);
@@ -150,18 +143,18 @@ private:
 
     RCLCPP_INFO(rclcpp::get_logger(NODE_LABEL),"Setting PinMode");
     // Pin mode settings
-    gpioSetMode(ENA, PI_OUTPUT);
-    gpioSetMode(ENB, PI_OUTPUT);
-    gpioSetMode(IN1, PI_OUTPUT);
-    gpioSetMode(IN2, PI_OUTPUT);
-    gpioSetMode(IN3, PI_OUTPUT);
-    gpioSetMode(IN4, PI_OUTPUT);
+    pinMode(ENA, OUTPUT);
+    pinMode(ENB, OUTPUT);
+    pinMode(IN1, OUTPUT);
+    pinMode(IN2, OUTPUT);
+    pinMode(IN3, OUTPUT);
+    pinMode(IN4, OUTPUT);
 
     // setting direction pins to 0
-    gpioWrite(IN1,PI_LOW);
-    gpioWrite(IN2,PI_LOW);
-    gpioWrite(IN3,PI_LOW);
-    gpioWrite(IN4,PI_LOW);
+    digitalWrite(IN1,0);
+    digitalWrite(IN2,0);
+    digitalWrite(IN3,0);
+    digitalWrite(IN4,0);
     
     set_frequency(pwm_freq_);
 
@@ -237,17 +230,17 @@ private:
   }
 
   void setForward(){
-    gpioWrite(IN1,0);
-    gpioWrite(IN2,1);
-    gpioWrite(IN3,1);
-    gpioWrite(IN4,0);
+    digitalWrite(IN1,0);
+    digitalWrite(IN2,1);
+    digitalWrite(IN3,1);
+    digitalWrite(IN4,0);
   }
 		
   void setBackward(){
-    gpioWrite(IN1,1);
-    gpioWrite(IN2,0);
-    gpioWrite(IN3,0);
-    gpioWrite(IN4,1);
+    digitalWrite(IN1,1);
+    digitalWrite(IN2,0);
+    digitalWrite(IN3,0);
+    digitalWrite(IN4,1);
   }
 
   /**

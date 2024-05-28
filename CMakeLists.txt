@@ -16,6 +16,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   builtin_interfaces
   rosidl_default_generators
   Eigen3
+  WiringPi
   minicar_interfaces
 )
 
@@ -38,12 +39,11 @@ ament_target_dependencies(accelerometer rclcpp minicar_interfaces)
 #add_executable(kalmanFilter src/EKF.cpp)
 
 
-set_target_properties(motorsManager PROPERTIES COMPILE_FLAGS "-pthread -lrt -lpigpio -lbcm2835")
+set_target_properties(motorsManager PROPERTIES COMPILE_FLAGS "-pthread -lrt -lwiringPi")
 set_target_properties(accelerometer PROPERTIES COMPILE_FLAGS "-lMPU6050")
 
 target_link_libraries(motorsManager
-  bcm2835
-  pigpio
+  wiringPi
 )
 target_link_libraries(accelerometer
   MPU6050

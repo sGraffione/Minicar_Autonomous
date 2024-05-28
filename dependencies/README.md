@@ -2,20 +2,15 @@
 
 Download the directory ```dependencies``` and use these commands to install each library.
 
-## bcm2835
-
-Use the following commands
-
-```                
-tar xvfz bcm2835-1.58.tar.gz;                      
-cd bcm2835-1.58;                       
-./configure;                      
-make;        
-sudo make install
-```
+If CMakeList can't find WiringPi library, you will need to move the file ```FindWiringPi.cmake``` to ```/usr/share/cmake-*.*/Modules``` where *.* is you version of cmake.
 
 ## MPU6050
 
+First, install some dependencies
+```
+sudo apt install i2c-tools libi2c-dev
+```
+Then install the library
 ```
 cd MPU6050
 make all
