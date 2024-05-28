@@ -16,3 +16,8 @@ cd MPU6050
 make all
 sudo make install
 ```
+
+## VL53L5CX_Linux_driver_1.3.11
+
+This folder contains general informations and tests about the ranging sensor used in this setup.
+The directory can be downloaded from the [producer website](https://www.st.com/en/embedded-software/stsw-img025.html). Please refer to this page to check updates and/or news about this product.
