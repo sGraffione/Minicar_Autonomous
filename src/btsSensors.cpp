@@ -162,7 +162,7 @@ class LocalizationTag
 class LocalizationPublisher : public rclcpp::Node
 {
 	public:
-		LocalizationPublisher() : Node("localization_publiher"), count_(0), locTag_("/dev/ttyACM2") // to change according to the assigned serial
+		LocalizationPublisher() : Node("localization_publiher"), count_(0), locTag_("/dev/ttyACM0") // to change according to the assigned serial
 		{
 			publisher_ = this->create_publisher<minicar_interfaces::msg::BtsData>("localization",10); // implicitly KeepLast
 			timer_ = this->create_wall_timer(

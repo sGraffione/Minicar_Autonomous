@@ -12,11 +12,12 @@
 
   <depend>rclcpp</depend>
   <depend>std_msgs</depend>
-  <depend>nav_msgs</depend>
   <depend>eigen</depend>
   <depend>WiringPi</depend>
   <depend>minicar_interfaces</depend>
+  <depend>vl53l5cx</depend>
 
+  <exec_depend>ros2launch</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

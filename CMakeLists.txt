@@ -18,6 +18,7 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
   Eigen3
   WiringPi
   minicar_interfaces
+  vl53l5cx
 )
 
 find_package(ament_cmake REQUIRED)
@@ -29,7 +30,8 @@ endforeach()
 include_directories(include)
 
 ###### Add executables ######
-#add_executable(controller src/control.cpp)
+add_executable(controller src/control.cpp)
+ament_target_dependencies(controller rclcpp minicar_interfaces std_msgs Eigen3)
 add_executable(localization src/btsSensors.cpp)
 ament_target_dependencies(localization rclcpp minicar_interfaces)
 add_executable(motorsManager src/motorsManager.cpp)
@@ -49,8 +51,12 @@ target_link_libraries(accelerometer
   MPU6050
 )
 
-install(TARGETS motorsManager accelerometer localization
+install(TARGETS motorsManager accelerometer localization controller
   DESTINATION lib/${PROJECT_NAME}
+)
+
+install(DIRECTORY launch description config worlds
+  DESTINATION share/${PROJECT_NAME}
 )
 
 
