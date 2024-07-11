@@ -1,14 +1,14 @@
-# Minicar_Autonomous
+# Minicar_Autonomous 🚗
 Autonomous minicar developed with ROS2 Jammy Jalisco toolkit
 
-Minicar hardware:
+Minicar hardware 🔧
 - Raspberry Pi 5 board
 - 3 Laser sensors [VL53L5CX-SATEL](https://www.st.com/en/evaluation-tools/vl53l5cx-satel.html)
 - [MPU6050](https://www.robotstore.it/Modulo-GY-521-MPU-6050) Accelerometer + Gyroscope
 - Pi camera
 - Localization sensors [Decawave DWM1001c](https://www.qorvo.com/products/p/DWM1001C)
   
-Dependencies:
+Dependencies 📦
 - Ubuntu 24.04
 - [ROS2 Jazzy Jalisco](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debians.html) (according to your Ubuntu version)
 - [WiringPi](https://github.com/WiringPi/WiringPi/) (currently not fully supported for Raspberry Pi 5, some bugs might happens - currenty working with version 3.4)
@@ -54,7 +54,7 @@ On the login page, press ```ctrl```+```alt```+```F1``` to go into command line m
 
 To switch back to GUI, press ```ctrl```+```alt```+```F2```.
 
-## Common issues
+## Common issues ⚠️
 
 ### System freezing when compiling
 
